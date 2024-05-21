@@ -2,9 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home</title>
 </head>
-<body>
+<body class="bg-dark">
+    <nav class="navbar navbar-expand-xl sticky-top" style="border-bottom: 1px solid white;">
+        <div class="container-fluid">
+            <a href="/"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="white"
+                    class="bi bi-fast-forward-btn-fill me-1" viewBox="0 0 16 16">
+                    <path
+                        d="M0 4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2m4.271 1.055a.5.5 0 0 1 .52.038L8 7.386V5.5a.5.5 0 0 1 .79-.407l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 8 10.5V8.614l-3.21 2.293A.5.5 0 0 1 4 10.5v-5a.5.5 0 0 1 .271-.445" />
+                </svg></a>
+            <a class="text-decoration-none" href="/">
+                <h2 class="testo-bianco">MediApp</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="white" class="bi bi-list"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                </svg>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="bg-ul navbar-nav ms-auto">
+                    <li><a href="http://127.0.0.1:5000/users"
+                            class="testo-bianco mx-5 text-decoration-none fs-5">Utenti</a>
+                    </li>
+                    <li><a href="http://127.0.0.1:5000/books"
+                            class="testo-bianco mx-5 text-decoration-none fs-5">Libri</a></li>
+                    <li><a href="http://127.0.0.1:5000/loan"
+                            class="testo-bianco mx-5 text-decoration-none fs-5">Prestiti</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 </body>
 </html>
