@@ -11,13 +11,9 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/movies')
-def movies():
-    with open('dataset/film.csv', 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        data = list(reader)
-
-    return render_template('movies.html', data=data)
+@app.route('/artisti')
+def artist():
+    return render_template('artisti.html')
 
 
 @app.route('/music')
