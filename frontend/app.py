@@ -44,35 +44,21 @@ def inserisci_dati(query, params=None):
 def home():
     return render_template("home.html")
 
+@app.route('/analisi-voli')
+def analisivoli():
+    return render_template("analisivoli.html")
 
-@app.route('/artisti')
-def artisti():
-    lista_artisti = execute_query('SELECT * from artist')
-    return render_template("artisti.html", artisti=lista_artisti)
+@app.route('/chi-siamo')
+def chisiamo():
+    return render_template("chisiamo.html")
 
+@app.route('/registrati')
+def registrati():
+    return render_template("registrati.html")
 
-@app.route('/artista/<id>')
-def artista(id):
-    artista = execute_query('SELECT * FROM artist WHERE artist_id = %s', (id,))
-    lista_opere_r = execute_query("""SELECT artwork.title
-                                    FROM artist
-                                    JOIN make_artwork ON artist.artist_id = make_artwork.artist_id
-                                    JOIN artwork ON artwork.artwork_id = make_artwork.artwork_id
-                                    WHERE artist.artist_id = %s""", (id,))
-    return render_template("artista.html", artista=artista[0], lista_opere=lista_opere_r)
-
-
-@app.route('/artisti/<nationality>')
-def artista_n(nationality):
-    lista_artisti = execute_query('SELECT * FROM artist WHERE artist.nationality = %s', (nationality,))
-    return lista_artisti
-
-
-@app.route('/opere')
-def opere():
-    lista_opere = execute_query('SELECT * FROM artwork LIMIT 0,50')
-    return render_template("opere.html", opere=lista_opere)
-
+@app.route('/contattaci')
+def contattaci():
+    return render_template("contattaci.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
