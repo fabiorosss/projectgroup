@@ -191,10 +191,10 @@ body {
 
 .cloud {
     position: absolute;
-    top: 0px;
+    top: 50px;
     right: -500px;
     opacity: .8;
-    animation: cloud 10s linear 0s infinite reverse;
+    animation: cloud 6s linear 0s infinite reverse;
     z-index: 99;
 }
 
