@@ -1,0 +1,173 @@
+.testo-bianco {
+    font-family: 'Fraunces', sans-serif;
+    color: white;
+}
+
+.nav-bg {
+    background-color: rgba(0, 100, 255, 0.5);
+}
+
+.cornice {
+    border: 5px groove goldenrod;
+}
+
+.sezione {
+    transition: 0.5s;
+}
+
+.sezione:hover {
+    background-image: url(https://artivive.com/assets/uploads/2022/04/christopher-jeauhn-bayne_hummingbird_artwork_image.jpg);
+    width: 350px;
+    height: 350px;
+    transition: 0.5s;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #c2c2c2;
+    text-align: left;
+    padding: 8px;
+}
+
+tr {
+    background-color: #ffffff;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.myButton {
+    box-shadow: inset 0px 1px 0px 0px #cf866c;
+    background: linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
+    background-color: #d0451b;
+    border-radius: 3px;
+    border: 1px solid #942911;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 13px;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #854629;
+}
+
+.myButton:hover {
+    background: linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
+    background-color: #bc3315;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+}
+
+/*STYLE POPUP*/
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.song-list {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.song-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.song-item:hover {
+    background-color: #f0f0f0;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+/*STYLE CARD*/
+.bg {
+    font-family: sans-serif;
+    background-color: hsl(212, 81%, 21%);
+    margin: 0;
+    font-weight: 400;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.content {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.box {
+    color: white;
+    width: 320px;
+    background: hsl(0, 0%, 0%);
+    border-radius: 10px;
+    box-shadow: 1px 5px 20px 9px hsla(0, 0%, 100%, 0.11);
+}
+
+.box img {
+    width: 100%;
+    display: block;
+    border-radius: 100%;
+    padding: 1rem;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+@media screen and (min-width: 992px) and (max-width: 2000px) {
+    #footer-recensioni {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+}
