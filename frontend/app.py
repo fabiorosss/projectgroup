@@ -2,16 +2,30 @@ from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-import base64
-from io import BytesIO
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from flask import Response
-
-
+from q import *
+from mysql.connector import Error
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
+
+
+def caricamento_lista(connection, query, d):
+    lista = []
+    for k, v in d.items():
+        lista.append(v)
+    data = tuple(lista)
+    print(data)
+    input()
+    try:
+        cursor = connection.cursor()
+        cursor.executemany(query, (data,))
+        connection.commit()
+        print("Query successful")
+    except Error as err:
+        print(f"Error: '{err}'")
 
 
 def create_db_connection():
@@ -28,7 +42,10 @@ def execute_query(query, params=None):
     connection = create_db_connection()
     cursor = connection.cursor(dictionary=True)
     if params:
-        cursor.execute(query, params)
+        try:
+            cursor.execute(query, params)
+        except Error as e:
+            print(e)
     else:
         cursor.execute(query)
     result = cursor.fetchall()
@@ -48,6 +65,7 @@ def inserisci_dati(query, params=None):
     cursor.close()
     connection.close()
 
+
 def create_figure():
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
@@ -60,11 +78,6 @@ def create_figure():
     return fig
 
 
-
-
-
-
-
 ##########
 ##ROUTES##
 ##########
@@ -73,20 +86,22 @@ def home():
     fig = create_figure()
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
-    return render_template("home.html", output = Response(output.getvalue(), mimetype='image/png') )
-
+    return render_template("home.html", output=Response(output.getvalue(), mimetype='image/png'))
 
 
 @app.route('/analisi-voli')
 def analisivoli():
     return render_template("analisivoli.html")
 
+
 @app.route('/chi-siamo')
 def chisiamo():
     return render_template("chisiamo.html")
 
+
 @app.route('/registrati', methods=['POST', 'GET'])
 def registrati():
+    connection = create_db_connection()
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -94,21 +109,24 @@ def registrati():
         surname = request.form.get('surname')
         address = request.form.get('address')
         city = request.form.get('city')
+
         dati = {
             'email': email,
             'password': password,
             'nome': name,
             'cognome': surname,
             'indirizzo': address,
-            'città': city
+            'citta': city
         }
-        print(dati)
+        caricamento_lista(connection, q7, dati)
 
     return render_template("registrati.html")
+
 
 @app.route('/contattaci')
 def contattaci():
     return render_template("contattaci.html")
+
 
 @app.route('/login')
 def login():
@@ -117,4 +135,3 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
