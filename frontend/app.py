@@ -1,5 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+import base64
+from io import BytesIO
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from flask import Response
+
+
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -39,10 +48,34 @@ def inserisci_dati(query, params=None):
     cursor.close()
     connection.close()
 
+def create_figure():
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    xs = [1, 4, 6, 9]
+    ys = [10, 20, 30, 40]
+    axis.plot(xs, ys)
+    plt.xlabel('Numeri')
+    plt.ylabel('Altro')
+    plt.title('Esperimento di plotting')
+    return fig
 
+
+
+
+
+
+
+##########
+##ROUTES##
+##########
 @app.route('/')
 def home():
-    return render_template("home.html")
+    fig = create_figure()
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return render_template("home.html", output = Response(output.getvalue(), mimetype='image/png') )
+
+
 
 @app.route('/analisi-voli')
 def analisivoli():
@@ -52,8 +85,25 @@ def analisivoli():
 def chisiamo():
     return render_template("chisiamo.html")
 
-@app.route('/registrati')
+@app.route('/registrati', methods=['POST', 'GET'])
 def registrati():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        name = request.form.get('name')
+        surname = request.form.get('surname')
+        address = request.form.get('address')
+        city = request.form.get('city')
+        dati = {
+            'email': email,
+            'password': password,
+            'nome': name,
+            'cognome': surname,
+            'indirizzo': address,
+            'città': city
+        }
+        print(dati)
+
     return render_template("registrati.html")
 
 @app.route('/contattaci')
@@ -64,5 +114,7 @@ def contattaci():
 def login():
     return render_template("login.html")
 
+
 if __name__ == '__main__':
     app.run(debug=True)
+
