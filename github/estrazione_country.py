@@ -15,7 +15,7 @@ s = set()
 for elem in lista_country:
     s.add(elem.title().strip())
 l = list(s)
-d = {l[i] :i+1 for i in range(len(l))}
+d = {l[i]: i + 1 for i in range(len(l))}
 
 print(len(s))
 df_c = pd.DataFrame(s)
