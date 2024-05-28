@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JetAir</title>
+    <title>🏠 Home</title>
     <link rel="icon" type="image/x-icon" href="air.ico">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
@@ -17,6 +17,14 @@
         rel="stylesheet">
     <style>
         .nav-link {
+            color: white;
+        }
+
+        .card {
+            background-color: #464866;
+        }
+
+        .card-title {
             color: white;
         }
     </style>
@@ -128,10 +136,41 @@
             </div>
 
             <div class="airtraffic">
-                <iframe src="https://giphy.com/embed/J6CUvo0G2EG4PWWLvh" width="480" height="270" frameBorder="0"
+                <iframe src="https://giphy.com/embed/J6CUvo0G2EG4PWWLvh" width="500" height="290" frameBorder="0"
                     class="giphy-embed" allowFullScreen></iframe>
                 <p class="testo-bianco mb-5">Analisi voli, tratte ed emissioni di CO2</p>
             </div>
+
+
+            <div class="card mb-3">
+                <h5 class="card-title mt-3 mb-3 testo-bianco">Meno CO₂, più viaggi!</h5>
+                <img class="card-img-top" src="static/aereovolo.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title testo-bianco">Circa il 2,4% delle emissioni globali di CO₂ arriva dal traffico
+                        aereo</h5>
+                    <p class="card-text testo-bianco">Scopri come puoi fare scelte più consapevoli ed essere a
+                        conoscenza di quanta
+                        anidride carbonica emetterà il prossimo volo
+                        che stai programmando, potrebbe esserci una scelta più ecologica e magari anche più economica!
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title testo-bianco">Card title</h5>
+                    <p class="card-text testo-bianco">This is a wider card with supporting text below as a natural
+                        lead-in to
+                        additional content. This content is a little bit longer.</p>
+
+                </div>
+                <img class="card-img-bottom" src="..." alt="Card image cap">
+            </div>
+
+
+
+
+
+
 
             <div class="col-lg-6">
                 <div class="testo-bianco text-center mb-5">

@@ -4,6 +4,7 @@
 }
 
 
+
 .nav-bg {
     background-color: #29648A;
 }
@@ -191,10 +192,10 @@ body {
 
 .cloud {
     position: absolute;
-    top: 0px;
+    top: 50px;
     right: -500px;
     opacity: .8;
-    animation: cloud 10s linear 0s infinite reverse;
+    animation: cloud 6s linear 0s infinite reverse;
     z-index: 99;
 }
 
@@ -216,4 +217,30 @@ body {
     to {
         right: 102%;
     }
+}
+
+.pushable {
+    background: hsl(198, 63%, 35%);
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.front {
+    display: block;
+    padding: 12px 42px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    background: hsl(198, 63%, 49%);
+    color: white;
+    transform: translateY(-4px);
+}
+
+.pushable:active .front {
+    transform: translateY(-2px);
+}
+
+.pushable:focus:not(:focus-visible) {
+    outline: none;
 }
