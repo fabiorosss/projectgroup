@@ -7,6 +7,8 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from flask import Response
 from q import *
 from mysql.connector import Error
+import hashlib
+
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -109,13 +111,16 @@ def registra_utente():
         address = request.form.get('address')
         city = request.form.get('city')
 
+        password = hashlib.md5(password.encode())
+        print(password.hexdigest())
+
         dati = {
             'email': email,
-            'password': password,
-            'nome': name,
-            'cognome': surname,
+            'password': str(password).replace('md5 _hashlib.HASH object @ ',''),
+            'nome': name.title(),
+            'cognome': surname.title(),
             'indirizzo': address,
-            'citta': city
+            'citta': city.title()
         }
         caricamento_lista(connection, q7, dati)
 
