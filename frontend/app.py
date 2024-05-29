@@ -18,7 +18,6 @@ def caricamento_lista(connection, query, d):
         lista.append(v)
     data = tuple(lista)
     print(data)
-    input()
     try:
         cursor = connection.cursor()
         cursor.executemany(query, (data,))
@@ -99,8 +98,8 @@ def chisiamo():
     return render_template("chisiamo.html")
 
 
-@app.route('/registrati', methods=['POST', 'GET'])
-def registrati():
+@app.route('/registra_utente', methods=['POST'])
+def registra_utente():
     connection = create_db_connection()
     if request.method == 'POST':
         email = request.form.get('email')
@@ -120,7 +119,7 @@ def registrati():
         }
         caricamento_lista(connection, q7, dati)
 
-    return render_template("registrati.html")
+    return redirect(url_for('home'))
 
 
 @app.route('/contattaci')
@@ -131,6 +130,11 @@ def contattaci():
 @app.route('/login')
 def login():
     return render_template("login.html")
+
+
+@app.route('/registrati')
+def registrati():
+    return render_template('registrati.html')
 
 
 if __name__ == '__main__':

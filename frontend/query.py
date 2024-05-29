@@ -113,6 +113,12 @@ CREATE TABLE utenti(
     );
     '''
 
+
+delete_from_utenti = '''
+    ALTER TABLE utenti(
+    
+    '''
+
 create_trigger_ins_att = '''
 CREATE TRIGGER tr_utenti AFTER INSERT ON utenti
 FOR EACH ROW
@@ -250,3 +256,5 @@ caricamento_dataframe(connessione_db, q2, df_airlines)
 caricamento_lista(connessione_db, q3, lista_flight_data)
 caricamento_lista(connessione_db, q4, lista_flight_airlines)
 caricamento_dataframe2(connessione_db, q5, df_rotte)
+
+
