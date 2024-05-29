@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import mysql.connector
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -19,12 +19,22 @@ def caricamento_lista(connection, query, d):
     for k, v in d.items():
         lista.append(v)
     data = tuple(lista)
+    mail = lista[0]
     print(data)
+    print(mail)
     try:
         cursor = connection.cursor()
-        cursor.executemany(query, (data,))
-        connection.commit()
-        print("Query successful")
+        cursor.execute(query_email, (mail,))
+        risultati = cursor.fetchone()
+        print(risultati)
+        if risultati:
+            flash('La mail è già in utilizzo da un altro utente', 'error')
+            return render_template("registrati.html")
+        else:
+            cursor.executemany(query, (data,))
+            connection.commit()
+            print("Query successful")
+            return
     except Error as err:
         print(f"Error: '{err}'")
 
@@ -80,12 +90,9 @@ def create_figure():
 ##########
 ##ROUTES##
 ##########
-@app.route('/')
+@app.route('/home')
 def home():
-    fig = create_figure()
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return render_template("home.html", output=Response(output.getvalue(), mimetype='image/png'))
+    return render_template("home.html")
 
 
 @app.route('/analisi-voli')
@@ -102,7 +109,6 @@ def chisiamo():
 def registra_utente():
     connection = create_db_connection()
     if request.method == 'POST':
-        print(hashlib.md5('a'.encode()))
         email = request.form.get('email')
         password = request.form.get('password')
         name = request.form.get('name')
@@ -119,7 +125,8 @@ def registra_utente():
             'citta': city.title()
         }
         caricamento_lista(connection, q7, dati)
-    return redirect(url_for('home'))
+        button = request.form.get("button")
+        return redirect(url_for('home'))
 
 
 @app.route('/contattaci')
@@ -127,7 +134,7 @@ def contattaci():
     return render_template("contattaci.html")
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def login():
     connection = create_db_connection()
     if request.method == 'POST':
@@ -152,6 +159,21 @@ def login():
 @app.route('/registrati')
 def registrati():
     return render_template('registrati.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)  # Rimuove l'ID dell'utente dalla sessione
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('login'))
+
+
+@app.route('/profile')
+def profile():
+    if 'user_id' not in session:
+        flash('Devi essere iscritto per accedere a questa pagina.', 'error')
+        return redirect(url_for('login'))
+    return "Benvenuto al tuo profilo!"
 
 
 if __name__ == '__main__':

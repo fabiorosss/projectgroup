@@ -107,9 +107,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav me-auto">
-            <a class="nav-item nav-link testo-bianco" href="/">Home</a>
-            <a class="nav-item nav-link testo-bianco" href="/analisi-voli">Analisi Voli</a>
-            <a class="nav-item nav-link testo-bianco" href="/chi-siamo">Chi Siamo</a>
             <a class="nav-item nav-link testo-bianco" href="/contattaci">Contattaci</a>
         </div>
 
@@ -120,7 +117,7 @@
                     <i class="bi bi-person" style="font-size:25px;"></i>
                 </a>
                 <div class="dropdown-menu m-0 bg-info bianco rounded-0">
-                    <a href="/login" class="dropdown-item">Login</a>
+                    <a href="/" class="dropdown-item">Login</a>
                     <a href="/registrati" class="dropdown-item">Registrati</a>
                 </div>
             </div>
@@ -185,8 +182,8 @@
             <button onclick="showPopup()" type="button" class="btn btn-success">Invia</button>
             <div id="popupContent">
                 <p>Are you sure you want to submit?</p>
-                <button onclick="submitForm()" type="submit">Yes</button>
-                <button onclick="hidePopup()">No</button>
+                <button name="button" onclick="submitForm()" type="submit">Yes</button>
+                <button><a href='/' onclick="hidePopup()" style="text-decoration: none; color: inherit; cursor: text;">No</a></button>
             </div>
         </div>
 
