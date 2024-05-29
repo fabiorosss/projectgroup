@@ -93,22 +93,37 @@ CREATE TABLE utenti(
     );
     '''
 
-create_trigger_ins_att = '''
-CREATE TRIGGER tr_utenti AFTER INSERT ON utenti
-FOR EACH ROW
-BEGIN
-  INSERT INTO platform (operazione, id, data)
-  VALUES ('INSERT', NEW.id, CURRENT_TIMESTAMP);
-END;
+create_table_trigger = '''
+CREATE TABLE platform(
+    operazione VARCHAR(10),
+    data TIMESTAMP,
+    id_riga INT
+);
 '''
 
-create_trigger_del_att = '''
+create_trigger_inserimento_utenti = '''
+DELIMI
 CREATE TRIGGER tr_utenti_delete AFTER DELETE ON utenti
 FOR EACH ROW
 BEGIN
   INSERT INTO platform (operazione, id, data)
-  VALUES ('DELETE', OLD.id, CURRENT_TIMESTAMP);
-END;
+  VALUES ('INSERT', OLD.id, CURRENT_TIMESTAMP);
+END$$
+
+DELIMITER ;
+'''
+
+create_trigger_elim_utenti = '''
+DELIMITER $$
+
+CREATE TRIGGER tr_eliminazione_utenti AFTER DELETE ON utenti
+FOR EACH ROW
+BEGIN
+  INSERT INTO platform (operazione, data, id_riga)
+  VALUES ('DELETE', CURRENT_TIMESTAMP, OLD.id);
+END$$
+
+DELIMITER ;
 '''
 
 accedi_su_sito = '''
@@ -120,7 +135,7 @@ accedi_su_sito = '''
 delete_from_utenti = '''
     ALTER TABLE utenti(
     DELETE * FROM utenti
-    WHERE email = %s
+    WHERE email = %s AND password = %s
     );
     '''
 

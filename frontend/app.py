@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -9,9 +9,9 @@ from q import *
 from mysql.connector import Error
 import hashlib
 
-
 app = Flask(__name__)
 app.config.from_object('config.Config')
+app.secret_key = 'your_secret_key'
 
 
 def caricamento_lista(connection, query, d):
@@ -39,17 +39,15 @@ def create_db_connection():
     return mysql.connector.connect(**db_config)
 
 
-def execute_query(query, params=None):
+def read_query(query, params):
+    print(params)
     connection = create_db_connection()
     cursor = connection.cursor(dictionary=True)
-    if params:
-        try:
-            cursor.execute(query, params)
-        except Error as e:
-            print(e)
-    else:
-        cursor.execute(query)
-    result = cursor.fetchall()
+    try:
+        cursor.execute(query, (params['password'], params['email'],))
+    except Error as e:
+        print(e)
+    result = cursor.fetchone()
     cursor.close()
     connection.close()
     return result
@@ -104,6 +102,7 @@ def chisiamo():
 def registra_utente():
     connection = create_db_connection()
     if request.method == 'POST':
+        print(hashlib.md5('a'.encode()))
         email = request.form.get('email')
         password = request.form.get('password')
         name = request.form.get('name')
@@ -111,19 +110,15 @@ def registra_utente():
         address = request.form.get('address')
         city = request.form.get('city')
 
-        password = hashlib.md5(password.encode())
-        print(password.hexdigest())
-
         dati = {
             'email': email,
-            'password': str(password).replace('md5 _hashlib.HASH object @ ',''),
+            'password': password,
             'nome': name.title(),
             'cognome': surname.title(),
             'indirizzo': address,
             'citta': city.title()
         }
         caricamento_lista(connection, q7, dati)
-
     return redirect(url_for('home'))
 
 
@@ -132,8 +127,25 @@ def contattaci():
     return render_template("contattaci.html")
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def login():
+    connection = create_db_connection()
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        dati = {
+            "password": password,
+            "email": email,
+        }
+        print(dati)
+        user = read_query(accedi_su_sito, dati)
+        print(user)
+        if user:
+            return redirect(url_for('home'))
+        else:
+            # If user does not exist, stay on the login page with an error message
+            flash('Invalid email or password', 'error')
+            return render_template("login.html")
     return render_template("login.html")
 
 

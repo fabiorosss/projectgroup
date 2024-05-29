@@ -109,29 +109,34 @@ CREATE TABLE utenti(
     nome VARCHAR(50),
     cognome VARCHAR(50),
     indirizzo VARCHAR(150),
-    città VARCHAR(150)
+    citta VARCHAR(150)
     );
     '''
 
-
-
-
-create_trigger_ins_att = '''
-CREATE TRIGGER tr_utenti AFTER INSERT ON utenti
-FOR EACH ROW
-BEGIN
-  INSERT INTO platform (operazione, id, data)
-  VALUES ('INSERT', NEW.id, CURRENT_TIMESTAMP);
-END;
+create_table_trigger = '''
+CREATE TABLE platform(
+    operazione VARCHAR(10),
+    data TIMESTAMP,
+    id_riga INT
+);
 '''
 
-create_trigger_del_att = '''
-CREATE TRIGGER tr_utenti_delete AFTER DELETE ON utenti
+create_trigger_inserimento_utenti = '''
+CREATE TRIGGER tr_utenti_insert AFTER INSERT ON utenti
 FOR EACH ROW
 BEGIN
   INSERT INTO platform (operazione, id, data)
-  VALUES ('DELETE', OLD.id, CURRENT_TIMESTAMP);
-END;
+  VALUES ('INSERT', OLD.id, CURRENT_TIMESTAMP);
+END
+'''
+
+create_trigger_elim_utenti = '''
+CREATE TRIGGER tr_eliminazione_utenti AFTER DELETE ON utenti
+FOR EACH ROW
+BEGIN
+  INSERT INTO platform (operazione, data, id_riga)
+  VALUES ('DELETE', CURRENT_TIMESTAMP, OLD.id);
+END
 '''
 
 execute_query(connessione_db, create_country)
@@ -141,6 +146,9 @@ execute_query(connessione_db, create_flight_data)
 execute_query(connessione_db, create_fk_flight_data_airlines)
 execute_query(connessione_db, create_fk_rotte1)
 execute_query(connessione_db, create_table_utenti)
+execute_query(connessione_db, create_table_trigger)
+execute_query(connessione_db, create_trigger_inserimento_utenti)
+execute_query(connessione_db, create_trigger_elim_utenti)
 
 q1 = f'INSERT INTO airports (airport_code, airport_name, city_name, country_name, country_code, latitude, longitude) VALUES (%s, %s, %s, %s, %s, %s, %s)'
 q2 = f'INSERT INTO airlines(name, country) VALUES (%s, %s)'
@@ -253,5 +261,3 @@ caricamento_dataframe(connessione_db, q2, df_airlines)
 caricamento_lista(connessione_db, q3, lista_flight_data)
 caricamento_lista(connessione_db, q4, lista_flight_airlines)
 caricamento_dataframe2(connessione_db, q5, df_rotte)
-
-
