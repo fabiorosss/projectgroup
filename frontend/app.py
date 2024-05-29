@@ -26,15 +26,15 @@ def caricamento_lista(connection, query, d):
         cursor = connection.cursor()
         cursor.execute(query_email, (mail,))
         risultati = cursor.fetchone()
-        print(risultati)
         if risultati:
             flash('La mail è già in utilizzo da un altro utente', 'error')
-            return render_template("registrati.html")
+            print('ti ho fregato di nuovo')
+            return 1
         else:
             cursor.executemany(query, (data,))
             connection.commit()
             print("Query successful")
-            return
+            return 0
     except Error as err:
         print(f"Error: '{err}'")
 
@@ -124,9 +124,11 @@ def registra_utente():
             'indirizzo': address,
             'citta': city.title()
         }
-        caricamento_lista(connection, q7, dati)
-        button = request.form.get("button")
-        return redirect(url_for('home'))
+        risultato = caricamento_lista(connection, q7, dati)
+        if risultato == 0:
+            return redirect(url_for('home'))
+        elif risultato == 1:
+            return render_template('registrati.html')
 
 
 @app.route('/contattaci')

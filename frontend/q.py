@@ -150,10 +150,8 @@ q5 = f'INSERT INTO rotte1(airline_id, departure_airport, departure_airport_id, a
 q6 = f'INSERT INTO country(name) VALUES (%s)'
 q7 = f'INSERT INTO utenti(email, password, nome, cognome, indirizzo, citta) VALUES (%s, %s, %s, %s, %s, %s)'
 
-
-
 query_email = '''
-SELECT u.email
-FROM utenti AS u
-WHERE u.email = %s
+SELECT email
+FROM utenti
+WHERE email = %s
 '''

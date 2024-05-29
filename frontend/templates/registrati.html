@@ -183,11 +183,23 @@
             <div id="popupContent">
                 <p>Are you sure you want to submit?</p>
                 <button name="button" onclick="submitForm()" type="submit">Yes</button>
-                <button><a href='/' onclick="hidePopup()" style="text-decoration: none; color: inherit; cursor: text;">No</a></button>
+                <button><a href='/' onclick="hidePopup()" style="text-decoration: none; color: inherit; cursor: text;">No</a>
+                </button>
             </div>
         </div>
-
     </form>
+</div>
+<div class="container" style="text-align: center; color: #b31b1b; font-weight: bold;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div>
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <!-- Altri contenuti del tuo template... -->
 </div>
 
 <footer id="footer-recensioni">
