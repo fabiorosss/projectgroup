@@ -114,10 +114,7 @@ CREATE TABLE utenti(
     '''
 
 
-delete_from_utenti = '''
-    ALTER TABLE utenti(
-    
-    '''
+
 
 create_trigger_ins_att = '''
 CREATE TRIGGER tr_utenti AFTER INSERT ON utenti

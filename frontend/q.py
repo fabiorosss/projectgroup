@@ -84,7 +84,7 @@ CREATE TABLE country(
 create_table_utenti = '''
 CREATE TABLE utenti(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(120),
+    email VARCHAR(120) UNIQUE,
     password VARCHAR(30),
     nome VARCHAR(50),
     cognome VARCHAR(50),
@@ -110,6 +110,19 @@ BEGIN
   VALUES ('DELETE', OLD.id, CURRENT_TIMESTAMP);
 END;
 '''
+
+accedi_su_sito = '''
+    SELECT *
+    FROM utenti
+    WHERE email = %s AND password = %s
+'''
+
+delete_from_utenti = '''
+    ALTER TABLE utenti(
+    DELETE * FROM utenti
+    WHERE email = %s
+    );
+    '''
 
 q1 = f'INSERT INTO airports (airport_code, airport_name, city_name, country_name, country_code, latitude, longitude) VALUES (%s, %s, %s, %s, %s, %s, %s)'
 q2 = f'INSERT INTO airlines(name, country) VALUES (%s, %s)'
