@@ -20,6 +20,89 @@ def get_driver():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
+def funzione_mese(dati_utente):
+
+    if dati_utente['giorno_partenza'] == None and dati_utente['giorno_arrivo'] == None:
+        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'  # nel caso si effettui la ricerca per mese
+        mese_arrivo = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_partenza"]}-31'
+        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_partenza'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        else:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+
+    elif dati_utente['giorno_partenza'] == None:
+        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'  # nel caso si effettui la ricerca per mese
+        mese_arrivo = f'2024-{dati_utente["mese_arrivo"]}-{dati_utente['giorno_arrivo']}'
+        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_partenza'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        else:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+
+    elif dati_utente['giorno_arrivo'] == None:
+        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-{dati_utente['giorno_partenza']}'
+        mese_arrivo = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'
+        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_partenza'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        else:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+
+    else:
+        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-{dati_utente['giorno_partenza']}'
+        mese_arrivo = f'2024-{dati_utente["mese_arrivo"]}-{dati_utente['giorno_arrivo']}'
+        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_partenza'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        elif dati_utente['citta_arrivo'] == None:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        else:
+            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+
+    print(url)
+
+    # Ottieni il driver
+    driver = get_driver()
+
+    # Effettua la richiesta
+    driver.get(url)
+    driver.maximize_window()
+
+    input("Vai avanti")
+
+    html_content = driver.page_source
+
+    try:
+        accept_button = driver.find_element(By.ID, "cookies_accept")
+        accept_button.click()
+    except Exception as e:
+        print("Non è stato possibile trovare il bottone di accettazione dei cookie:", e)
+
+    tag_name = "span"
+    elements = driver.find_elements(By.TAG_NAME, tag_name)
+    lista_arrivi = []
+    if elements:
+        for index, element in enumerate(elements):
+            t_element = element.text
+            print(t_element)
+            if t_element.isalpha() and t_element != 'Feedback':
+                lista_arrivi.append(t_element)
+            elif '€' in t_element:
+                lista_arrivi.append(t_element.replace(' ', ''))
+    else:
+        print('nessun elemento trovato')
+
 
 # URL da richiedere
 data_partenza = '18 09 2024'
@@ -60,14 +143,6 @@ try:
     accept_button.click()
 except Exception as e:
     print("Non è stato possibile trovare il bottone di accettazione dei cookie:", e)
-
-# lista_citta_aeroporto = ['Roma', 'Milano', 'Bergamo', 'Venezia', 'Catania', 'Bologna', 'Napoli', 'Pisa', 'Palermo',
-#                          'Bari', 'Torino', 'Cagliari',
-#                          'Verona', 'Lamezia Terme', 'Firenze', 'Brindisi', 'Treviso', 'Olbia', 'Alghero', 'Trapani',
-#                          'Genova', 'Trieste',
-#                          'Reggio Calabria', 'Ancona', 'Rimini', 'Cuneo', 'Perugia', 'Parma', 'Bolzano', 'Brescia',
-#                          'Pescara', 'Pantelleria',
-#                          'Foggia', 'Grosseto', 'Comiso', 'Forli', 'Siena', 'Salerno', 'Crotone', 'Perugia', ]
 
 tag_name = "span"
 elements = driver.find_elements(By.TAG_NAME, tag_name)
