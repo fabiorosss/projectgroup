@@ -96,7 +96,7 @@ CREATE TABLE rotte1(
 
 create_country = '''
 CREATE TABLE country(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY,
     name VARCHAR(100) UNIQUE
     );
     '''
@@ -104,7 +104,7 @@ CREATE TABLE country(
 create_table_utenti = '''
 CREATE TABLE utenti(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(120),
+    email VARCHAR(120) UNIQUE,
     password VARCHAR(30),
     nome VARCHAR(50),
     cognome VARCHAR(50),
@@ -158,7 +158,7 @@ q3 = (
     f'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)')
 q4 = f'INSERT INTO flight_data_airlines(id, airlines_flight_data, airlines_airlines) VALUES (%s, %s, %s)'
 q5 = f'INSERT INTO rotte1(airline_id, departure_airport, departure_airport_id, arrival_airport, arrival_airport_id) VALUES (%s, %s, %s, %s, %s)'
-q6 = f'INSERT INTO country(name) VALUES (%s)'
+q6 = f'INSERT INTO country(id, name) VALUES (%s, %s)'
 q7 = f'INSERT INTO utenti(email, password, nome, cognome, indirizzo, citta) VALUES (%s, %s, %s, %s, %s, %s)'
 
 df_airports = pd.read_csv('../csv_puliti/airports-code2_final.csv')
@@ -251,11 +251,17 @@ df_rotte.pop('Airline')
 df_rotte.replace(r'\N', np.nan, inplace=True)
 df_rotte.dropna(inplace=True)
 
-df_country = pd.read_csv('../csv_puliti/country.csv')
-df_country.pop('Unnamed: 0')
-df_country = df_country.replace({np.nan: None})
+with open('country.csv') as file:
+    reader = csv.reader(file)
+    lista = list(reader)
+for elem in lista[1:]:
+    try:
+        elem[0] = int(elem[0])
+    except Exception:
+        elem[0] = elem[0]
 
-caricamento_dataframe(connessione_db, q6, df_country)
+
+caricamento_lista(connessione_db, q6, lista[1:])
 caricamento_dataframe(connessione_db, q1, df_airports)
 caricamento_dataframe(connessione_db, q2, df_airlines)
 caricamento_lista(connessione_db, q3, lista_flight_data)

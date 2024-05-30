@@ -170,17 +170,8 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/profile')
-def profile():
-    if 'user_id' not in session:
-        flash('Devi essere iscritto per accedere a questa pagina.', 'error')
-        return redirect(url_for('login'))
-    return "Benvenuto al tuo profilo!"
-
-
 @app.route('/prezzi-voli')
 def prezzi_voli():
-
     return render_template('prezzivoli.html')
 
 

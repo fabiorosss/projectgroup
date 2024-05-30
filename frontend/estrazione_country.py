@@ -17,8 +17,6 @@ for elem in lista_country:
     s.add(elem.title().strip())
 l = list(s)
 d = {l[i]: i + 1 for i in range(len(l))}
-print(d)
-ll = []
 ll = [{d[elem]: elem } for elem in d]
 
 with open('country.csv', 'w', newline='') as file:
