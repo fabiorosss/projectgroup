@@ -37,18 +37,16 @@ CREATE TABLE platform(
 '''
 
 country_city_airport = '''
-SELECT c.name, a.city_name, a.airport_name
+SELECT c.name, a.city_name, a.airport_name, a.latitude, a.longitude
 FROM airports AS a
 INNER JOIN country AS c
 ON a.country_name = c.id
-WHERE c.name = 'France'
+WHERE c.name = %s
 LIMIT 10;
 '''
 
 city_airport = '''
-SELECT a.city_name, a.airport_name
-FROM airports AS a
-WHERE a.city = 'France'
-LIMIT 10;
+SELECT name
+FROM country
 '''
 

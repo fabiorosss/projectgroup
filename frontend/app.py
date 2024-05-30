@@ -189,20 +189,33 @@ def read_query(query, params):
     connection.close()
     return result
 
-def read_query2(query, params):
-    print(params)
+def read_query2(c, query):
+    print(query)
     connection = create_db_connection()
     cursor = connection.cursor(dictionary=True)
     try:
-        cursor.execute(query, params)
+        cursor.execute(query)
     except Error as e:
         print(e)
-    result = cursor.fetchone()
+    result = cursor.fetchall()
     cursor.close()
     connection.close()
+    print(result)
     return result
 
 
+def read_query3(c, q, p):
+    print(q)
+    cursor = c.cursor(dictionary=True)
+    try:
+        cursor.execute(q)
+    except Error as e:
+        print(e)
+    result = cursor.fetchall()
+    cursor.close()
+    c.close()
+    print(result)
+    return result
 
 def inserisci_dati(query, params=None):
     connection = create_db_connection()
@@ -347,13 +360,30 @@ def search():
 
 @app.route('/citta')
 def citta():
+    print('ciao')
     connection = create_db_connection()
-    read_query2(connection, city_airport)
-    return redirect(url_for('search_citta.html'))
+    result = read_query2(connection, city_airport)
+    return render_template('search_citta.html', results=result)
+
+
+# @app.route('/search_citta')
+# def search_citta():
+#
+#     return render_template('search_citta.html', result=result)
+
 
 @app.route('/aeroporto')
 def aeroporto():
     return render_template('search_aeroporto.html')
+
+@app.route ('/dati')
+def dati():
+    scelta = request.form.get('scelta')
+    scelta = {
+        'scelta': scelta
+    }
+    connection = create_db_connection()
+    read_query3(connection, country_city_airport, scelta)
 
 
 
