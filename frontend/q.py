@@ -155,3 +155,11 @@ SELECT email
 FROM utenti
 WHERE email = %s
 '''
+
+
+# query_citta_paesi = '''
+# SELECT
+# FROM airports as air
+# WHERE
+# INNER JOIN country AS c
+# ON c.
