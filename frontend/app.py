@@ -15,7 +15,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from webdriver.chrome import ChromeDriverManager
+#from webdriver.chrome import ChromeDriverManager
 from time import sleep
 from q import *
 
@@ -36,7 +36,7 @@ def get_driver(dati_utente):
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
 def funzione_mese(dati_utente):
@@ -189,6 +189,20 @@ def read_query(query, params):
     connection.close()
     return result
 
+def read_query2(query, params):
+    print(params)
+    connection = create_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    try:
+        cursor.execute(query, params)
+    except Error as e:
+        print(e)
+    result = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return result
+
+
 
 def inserisci_dati(query, params=None):
     connection = create_db_connection()
@@ -334,7 +348,7 @@ def search():
 @app.route('/citta')
 def citta():
     connection = create_db_connection()
-    read_query(connection, city_airport)
+    read_query2(connection, city_airport)
     return redirect(url_for('search_citta.html'))
 
 @app.route('/aeroporto')
