@@ -178,6 +178,12 @@ def profile():
     return "Benvenuto al tuo profilo!"
 
 
+@app.route('/prezzi-voli')
+def prezzi_voli():
+
+    return render_template('prezzivoli.html')
+
+
 @app.route('/suggestions', methods=['GET'])
 def suggestions():
     query = request.args.get('q')

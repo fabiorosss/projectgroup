@@ -156,7 +156,18 @@ CREATE TABLE platform(
 );
 '''
 
-iooo = ''
+country_city = '''
+SELECT c.country, a.city
+FROM airports AS a
+INNER JOIN country AS c
+ON a.country_name = c.id
+'''
+
+
+
+
+
+
 
 
 # query_citta_paesi = '''

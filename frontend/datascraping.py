@@ -53,29 +53,7 @@ driver.maximize_window()
 
 input("Vai avanti")
 
-# Ottieni l'HTML della pagina
 html_content = driver.page_source
-# class_name = 'leading-normal'
-# elements = driver.find_elements(By.CLASS_NAME, class_name)
-# lista = []
-# # Chiudi il driver
-# if elements:
-#     for index, element in enumerate(elements):
-#         t_element = element.text
-#         if '€' in t_element:
-#             stringa = ''
-#             print(f"Elemento {index + 1}:")
-#             print(element.get_attribute('outerHTML'))
-#             print("\n")
-#             for i in range(1, len(t_element), 1):
-#                 if t_element[i].isnumeric() and t_element[i+1].isnumeric():
-#                     stringa += t_element[i]
-#                 elif t_element[i].isnumeric() and t_element[i-1].isnumeric():
-#                     stringa += t_element[i]
-#             stringa += '€'
-#             lista.append(stringa)
-# else:
-#     print(f"Nessun elemento trovato con la class {class_name}")
 
 try:
     accept_button = driver.find_element(By.ID, "cookies_accept")
@@ -83,13 +61,13 @@ try:
 except Exception as e:
     print("Non è stato possibile trovare il bottone di accettazione dei cookie:", e)
 
-lista_citta_aeroporto = ['Roma', 'Milano', 'Bergamo', 'Venezia', 'Catania', 'Bologna', 'Napoli', 'Pisa', 'Palermo',
-                         'Bari', 'Torino', 'Cagliari',
-                         'Verona', 'Lamezia Terme', 'Firenze', 'Brindisi', 'Treviso', 'Olbia', 'Alghero', 'Trapani',
-                         'Genova', 'Trieste',
-                         'Reggio Calabria', 'Ancona', 'Rimini', 'Cuneo', 'Perugia', 'Parma', 'Bolzano', 'Brescia',
-                         'Pescara', 'Pantelleria',
-                         'Foggia', 'Grosseto', 'Comiso', 'Forli', 'Siena', 'Salerno', 'Crotone', 'Perugia', ]
+# lista_citta_aeroporto = ['Roma', 'Milano', 'Bergamo', 'Venezia', 'Catania', 'Bologna', 'Napoli', 'Pisa', 'Palermo',
+#                          'Bari', 'Torino', 'Cagliari',
+#                          'Verona', 'Lamezia Terme', 'Firenze', 'Brindisi', 'Treviso', 'Olbia', 'Alghero', 'Trapani',
+#                          'Genova', 'Trieste',
+#                          'Reggio Calabria', 'Ancona', 'Rimini', 'Cuneo', 'Perugia', 'Parma', 'Bolzano', 'Brescia',
+#                          'Pescara', 'Pantelleria',
+#                          'Foggia', 'Grosseto', 'Comiso', 'Forli', 'Siena', 'Salerno', 'Crotone', 'Perugia', ]
 
 tag_name = "span"
 elements = driver.find_elements(By.TAG_NAME, tag_name)

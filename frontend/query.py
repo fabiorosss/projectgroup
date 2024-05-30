@@ -126,7 +126,7 @@ CREATE TRIGGER tr_utenti_insert AFTER INSERT ON utenti
 FOR EACH ROW
 BEGIN
   INSERT INTO platform (operazione, id, data)
-  VALUES ('INSERT', OLD.id, CURRENT_TIMESTAMP);
+  VALUES ('INSERT', NEW.id, CURRENT_TIMESTAMP);
 END
 '''
 

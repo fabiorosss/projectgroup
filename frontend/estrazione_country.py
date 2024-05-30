@@ -1,3 +1,4 @@
+import csv
 import pandas as pd
 
 df = pd.read_csv('../csv_puliti/airports-code2_final.csv')
@@ -16,8 +17,17 @@ for elem in lista_country:
     s.add(elem.title().strip())
 l = list(s)
 d = {l[i]: i + 1 for i in range(len(l))}
+print(d)
+ll = []
+ll = [{d[elem]: elem } for elem in d]
 
-print(len(s))
-df_c = pd.DataFrame(s)
-df_c[0].to_csv('country.csv')
+with open('country.csv', 'w', newline='') as file:
+    fields = ['id', 'name']
+    writer= csv.DictWriter(file, delimiter=',', fieldnames=fields)
+    writer.writeheader()
+    for row in ll:
+        for k, v in row.items():
+            row2 = {'id': k,
+                    'name': v}
+            writer.writerow(row2)
 
