@@ -137,19 +137,23 @@
     </div>
 </nav>
 
-    <div class="form-group">
-        <div class="dropdown">
-            <button class="dropbtn">Scegli il paese</button>
-            <div class="dropdown-content">
-                {% for result in results %}
-                <a href="/scelta/{{ result.id }}">{{ result.name }}</a>
-                {% endfor %}
+<div class="container mt-5">
+    <div class="testo-bianco pt-2 mt-5 mb-5 align-items-center">
+        <form action="/scelta" method="POST" name="scelta" id="sceltaForm">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Scegli il paese di partenza</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="country">
+                    <option value="">Scegli il paese</option>
+                    {% for result in results %}
+                    <option value="{{ result.name }}">{{ result.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Invia</button>
+        </form>
     </div>
+</div>
 
-
-<+
 
 <div class="text-center">
     <hr class="testo-bianco mt-5" style="width: 80%; margin: auto; ">

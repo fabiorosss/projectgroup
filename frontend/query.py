@@ -122,12 +122,12 @@ CREATE TABLE platform(
 '''
 
 create_trigger_inserimento_utenti = '''
-CREATE TRIGGER tr_eliminazione_utenti 
-AFTER DELETE ON utenti
+CREATE TRIGGER tr_inserimento_utenti 
+AFTER INSERT ON utenti
 FOR EACH ROW
 BEGIN
   INSERT INTO platform (operazione, data, id_riga)
-  VALUES ('DELETE', CURRENT_TIMESTAMP, OLD.id);
+  VALUES ('INSERT', CURRENT_TIMESTAMP, NEW.id);
 END
 '''
 

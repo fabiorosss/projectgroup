@@ -2,27 +2,18 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 import mysql.connector
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-import io
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from flask import Response
+from webdriver_manager.chrome import ChromeDriverManager
+
 from q import *
 from mysql.connector import Error
-import hashlib
-import base64
-import requests
+
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-#from webdriver.chrome import ChromeDriverManager
 from time import sleep
 from q import *
-
-
-
-
-
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -35,12 +26,11 @@ def get_driver(dati_utente):
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-
-    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
-def funzione_mese(dati_utente):
 
+def funzione_mese(dati_utente):
     if dati_utente['giorno_partenza'] == None and dati_utente['giorno_arrivo'] == None:
         mese_partenza = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'  # nel caso si effettui la ricerca per mese
         mese_arrivo = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_partenza"]}-31'
@@ -139,8 +129,6 @@ def funzione_mese(dati_utente):
     input()
 
 
-
-
 def caricamento_lista(connection, query, d):
     lista = []
     for k, v in d.items():
@@ -189,6 +177,7 @@ def read_query(query, params):
     connection.close()
     return result
 
+
 def read_query2(c, query):
     print(query)
     connection = create_db_connection()
@@ -208,7 +197,7 @@ def read_query3(c, q, p):
     print(q)
     cursor = c.cursor(dictionary=True)
     try:
-        cursor.execute(q)
+        cursor.execute(q, p)
     except Error as e:
         print(e)
     result = cursor.fetchall()
@@ -216,6 +205,7 @@ def read_query3(c, q, p):
     c.close()
     print(result)
     return result
+
 
 def inserisci_dati(query, params=None):
     connection = create_db_connection()
@@ -354,9 +344,11 @@ def ricerca():
             funzione_mese(dati)
         return dati
 
+
 @app.route('/search')
 def search():
     return render_template('search.html')
+
 
 @app.route('/citta')
 def citta():
@@ -376,15 +368,17 @@ def citta():
 def aeroporto():
     return render_template('search_aeroporto.html')
 
-@app.route ('/dati')
-def dati():
+
+@app.route('/scelta', methods=['POST', 'GET'])
+
+def scelta():
     scelta = request.form.get('scelta')
     scelta = {
         'scelta': scelta
     }
+    print(scelta)
     connection = create_db_connection()
     read_query3(connection, country_city_airport, scelta)
-
 
 
 if __name__ == '__main__':
