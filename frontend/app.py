@@ -39,7 +39,7 @@ def get_driver(dati_utente):
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
-def funzione(dati_utente):
+def funzione_mese(dati_utente):
 
     if dati_utente['giorno_partenza'] == None and dati_utente['giorno_arrivo'] == None:
         mese_partenza = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'  # nel caso si effettui la ricerca per mese
@@ -124,7 +124,7 @@ def funzione(dati_utente):
 
     lista_finale = []
     for i in range(1, len(lista_arrivi), 1):
-        if arrivo.title() in lista_arrivi[0]:
+        if dati_utente['citta_arrivo'].title() in lista_arrivi[0]:
             lista_finale.append(lista_arrivi[0])
         if lista_arrivi[i].isalpha() and '€' in lista_arrivi[i - 1]:
             lista_finale.append(lista_arrivi[i])
@@ -325,6 +325,7 @@ def ricerca():
         }
         if giorno_partenza is None or giorno_arrivo is None:
             funzione_mese(dati)
+        return dati
 
 
 if __name__ == '__main__':

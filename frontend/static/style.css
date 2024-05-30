@@ -6,7 +6,7 @@
 
 
 .nav-bg {
-    background-color: #29648A;
+    background-color: #3858ff;
 }
 
 .airtraffic {
@@ -111,7 +111,8 @@ body {
 }
 
 #popupContent {
-    display: none; /* Hide the popup initially */
+    display: none;
+    /* Hide the popup initially */
     position: fixed;
     top: 50%;
     left: 50%;
