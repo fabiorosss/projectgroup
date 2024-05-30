@@ -14,7 +14,14 @@
 }
 
 .cornice {
-    border: 5px groove goldenrod;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border: #3858ff 10px double;
+    background-clip: content-box;
+    /* border: 5px inset #3858ff; */
+
 }
 
 .sezione {
@@ -22,9 +29,8 @@
 }
 
 .sezione:hover {
-    background-image: url(https://artivive.com/assets/uploads/2022/04/christopher-jeauhn-bayne_hummingbird_artwork_image.jpg);
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
     transition: 0.5s;
 }
 
