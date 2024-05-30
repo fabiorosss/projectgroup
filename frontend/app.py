@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import mysql.connector
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -19,17 +19,12 @@ from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 from q import *
 
-
-
-
-
-
 app = Flask(__name__)
 app.config.from_object('config.Config')
 app.secret_key = 'your_secret_key'
 
 
-def get_driver(dati_utente):
+def get_driver():
     options = Options()
     # options.add_argument('--headless')  # Esegui il browser in modalità headless
     options.add_argument('--disable-gpu')
@@ -41,53 +36,13 @@ def get_driver(dati_utente):
 
 def funzione_mese(dati_utente):
 
-    if dati_utente['giorno_partenza'] == None and dati_utente['giorno_arrivo'] == None:
-        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'  # nel caso si effettui la ricerca per mese
-        mese_arrivo = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_partenza"]}-31'
-        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_partenza'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        else:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+    url_date_precise = 'https://www.kiwi.com/it/search/tiles/italia/italia/2024-06-09/2024-07-12'
+    url_solo_mesi = 'https://www.kiwi.com/it/search/tiles/italia/italia/2024-05-30_2024-05-31/2024-06-01_2024-06-30'
 
-    elif dati_utente['giorno_partenza'] == None:
-        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'  # nel caso si effettui la ricerca per mese
-        mese_arrivo = f'2024-{dati_utente["mese_arrivo"]}-{dati_utente['giorno_arrivo']}'
-        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_partenza'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        else:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-
-    elif dati_utente['giorno_arrivo'] == None:
-        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-{dati_utente['giorno_partenza']}'
-        mese_arrivo = f'2024-{dati_utente["mese_partenza"]}-01_2024-{dati_utente["mese_arrivo"]}-31'
-        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_partenza'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        else:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-
+    if dati_utente['giorno_partenza'] == '' and dati_utente['giorno_arrivo'] == '':
+        url = f'https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza'].lower()}/{dati_utente['paese_arrivo'].lower()}/2024-{dati_utente['mese_partenza']}-30_2024-{dati_utente['mese_partenza']}-31/2024-{dati_utente['mese_arrivo']}-01_2024-{dati_utente['mese_arrivo']}-30'
     else:
-        mese_partenza = f'2024-{dati_utente["mese_partenza"]}-{dati_utente['giorno_partenza']}'
-        mese_arrivo = f'2024-{dati_utente["mese_arrivo"]}-{dati_utente['giorno_arrivo']}'
-        if dati_utente['citta_partenza'] == None and dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_partenza'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        elif dati_utente['citta_arrivo'] == None:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
-        else:
-            url = f"https://www.kiwi.com/it/search/tiles/{dati_utente['citta_partenza']}-{dati_utente['paese_partenza']}/{dati_utente['citta_arrivo']}-{dati_utente['paese_arrivo']}/{mese_partenza}/{mese_arrivo}"
+        url = f'https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza'].lower()}/{dati_utente['paese_arrivo'].lower()}/2024-{dati_utente['mese_partenza']}-{dati_utente['giorno_partenza']}/2024-{dati_utente['mese_arrivo']}-{dati_utente['giorno_arrivo']}'
 
     print(url)
 
@@ -122,9 +77,23 @@ def funzione_mese(dati_utente):
     else:
         print('nessun elemento trovato')
 
+    css_name = 'body > div: nth - child(2) > div:nth - child(3) > div: nth - child(4) > div:nth - child(1) > div: nth - child(1) > div:nth - child(1) > div: nth - child(3) > div:nth - child(1) > div: nth - child(3) > div:nth - child(1) > div: nth - child(1) > div:nth - child(1) > a: nth - child(1) > div:nth - child(3) > div: nth - child(1) > span:nth - child(1)'
+    elements2 = driver.find_elements(By.TAG_NAME, tag_name)
+    lista_partenze = []
+    if elements2:
+        for index, element in enumerate(elements2):
+            t_element = element.text
+            print(t_element)
+            if t_element.isalpha() and t_element != 'Feedback':
+                lista_partenze.append(t_element)
+            elif '€' in t_element:
+                lista_partenze.append(t_element.replace(' ', ''))
+    else:
+        print('nessun elemento trovato')
     lista_finale = []
+
     for i in range(1, len(lista_arrivi), 1):
-        if dati_utente['citta_arrivo'].title() in lista_arrivi[0]:
+        if dati_utente['paese_arrivo'].title() in lista_arrivi[0]:
             lista_finale.append(lista_arrivi[0])
         if lista_arrivi[i].isalpha() and '€' in lista_arrivi[i - 1]:
             lista_finale.append(lista_arrivi[i])
@@ -135,10 +104,11 @@ def funzione_mese(dati_utente):
         else:
             continue
 
+    print(lista_partenze)
     print(lista_finale)
     input()
-
-
+    image_elements = driver.find_elements(By.TAG_NAME, 'img')
+    return render_template('prezzivoli.html')
 
 
 def caricamento_lista(connection, query, d):
@@ -323,8 +293,8 @@ def ricerca():
             "giorno_partenza": giorno_partenza,
             "giorno_arrivo": giorno_arrivo
         }
-        if giorno_partenza is None or giorno_arrivo is None:
-            funzione_mese(dati)
+
+        funzione_mese(dati)
         return dati
 
 
