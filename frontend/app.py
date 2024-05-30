@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import mysql.connector
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -176,6 +176,19 @@ def profile():
         flash('Devi essere iscritto per accedere a questa pagina.', 'error')
         return redirect(url_for('login'))
     return "Benvenuto al tuo profilo!"
+
+
+@app.route('/suggestions', methods=['GET'])
+def suggestions():
+    query = request.args.get('q')
+    connection = create_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT city_name FROM cities WHERE city_name LIKE %s LIMIT 3", (f"%{query}%",))
+    results = cursor.fetchall()
+    suggestions = [row[0] for row in results]
+    cursor.close()
+    connection.close()
+    return jsonify(suggestions)
 
 
 if __name__ == '__main__':

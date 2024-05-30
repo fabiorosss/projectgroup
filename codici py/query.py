@@ -25,7 +25,7 @@ execute_query(connessione_db, create_flight_data)
 execute_query(connessione_db, create_fk_flight_data_airlines)
 execute_query(connessione_db, create_fk_rotte1)
 execute_query(connessione_db, create_table_utenti)
-
+execute_query(connessione_db, create_trigger)
 
 
 df_airports = pd.read_csv('../csv_puliti/airports-code2_final.csv')

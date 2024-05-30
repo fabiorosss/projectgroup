@@ -93,16 +93,8 @@ CREATE TABLE utenti(
     );
     '''
 
-create_table_trigger = '''
-CREATE TABLE platform(
-    operazione VARCHAR(10),
-    data TIMESTAMP,
-    id_riga INT
-);
-'''
-
 create_trigger_inserimento_utenti = '''
-DELIMI
+DELIMITER $$
 CREATE TRIGGER tr_utenti_delete AFTER DELETE ON utenti
 FOR EACH ROW
 BEGIN
@@ -155,6 +147,16 @@ SELECT email
 FROM utenti
 WHERE email = %s
 '''
+
+create_trigger = '''
+CREATE TABLE platform(
+    operazione VARCHAR(10),
+    data TIMESTAMP,
+    id_riga INT
+);
+'''
+
+iooo = ''
 
 
 # query_citta_paesi = '''
