@@ -1,8 +1,8 @@
 import pandas as pd
 
-df = pd.read_csv('csv_puliti/flight_data_database.csv')
+df = pd.read_csv('../csv_puliti/flight_data_database.CSV')
 df.drop_duplicates()
-df2 = pd.read_csv('csv_puliti/airports_database.csv')
+df2 = pd.read_csv('../csv_puliti/airports_database.csv')
 df2.drop_duplicates()
 
 lista1 = df['codice_aereoporto_di_partenza'].to_list()
