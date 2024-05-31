@@ -41,11 +41,35 @@ SELECT a.city_name, a.airport_name, a.latitude, a.longitude
 FROM airports AS a
 INNER JOIN country AS c
 ON a.country_name = c.id
-WHERE c.name = %s
+WHERE c.name = %s;
 '''
 
 city_airport = '''
 SELECT name
 FROM country
 '''
+
+
+airport_name = '''
+SELECT a.airport_name
+FROM airports a
+'''
+
+count_airport_p = '''
+SELECT COUNT(codice_aereoporto_di_partenza) AS partenze
+FROM flight_data AS f
+INNER JOIN airports AS a
+ON a.id = f.codice_aereoporto_di_partenza
+WHERE a.airport_name = %s
+'''
+
+count_airport_a = '''
+SELECT COUNT(codice_aereoporto_di_arrivo) AS arrivi
+FROM flight_data AS f
+INNER JOIN airports AS a
+ON a.id = f.codice_aereoporto_di_arrivo
+WHERE a.airport_name = %s
+'''
+
+
 
