@@ -45,8 +45,15 @@ WHERE c.name = %s;
 '''
 
 city_airport = '''
+<<<<<<< Updated upstream
 SELECT name
 FROM country
+=======
+SELECT a.city_name, a.airport_name
+FROM airports AS a
+WHERE a.city_name = 'France'
+LIMIT 10;
+>>>>>>> Stashed changes
 '''
 
 

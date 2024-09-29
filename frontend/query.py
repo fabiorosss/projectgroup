@@ -117,6 +117,7 @@ CREATE TABLE platform(
 '''
 
 create_trigger_inserimento_utenti = '''
+<<<<<<< Updated upstream
 CREATE TRIGGER tr_inserimento_utenti 
 AFTER INSERT ON utenti
 FOR EACH ROW
@@ -124,6 +125,15 @@ BEGIN
   INSERT INTO platform (operazione, data, id_riga)
   VALUES ('INSERT', CURRENT_TIMESTAMP, NEW.id);
 END
+=======
+CREATE TRIGGER tr_utenti_insert 
+AFTER INSERT ON utenti
+FOR EACH ROW
+BEGIN
+  INSERT INTO platform (operazione, id_riga, data)
+  VALUES ('INSERT', NEW.id, CURRENT_TIMESTAMP);
+END;
+>>>>>>> Stashed changes
 '''
 
 create_trigger_elim_utenti = '''
@@ -133,7 +143,7 @@ FOR EACH ROW
 BEGIN
   INSERT INTO platform (operazione, data, id_riga)
   VALUES ('DELETE', CURRENT_TIMESTAMP, OLD.id);
-END
+END;
 '''
 
 execute_query(connessione_db, create_country)

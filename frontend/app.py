@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import mysql.connector
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -15,7 +15,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 from q import *
 from flask import Flask, request
-
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -38,8 +37,7 @@ def funzione_mese(dati_utente):
     if dati_utente['giorno_partenza'] == '' and dati_utente['giorno_arrivo'] == '':
         if dati_utente['mese_partenza'] == '11' or dati_utente['mese_partenza'] == '04' or dati_utente[
             'mese_partenza'] == '06' or dati_utente['mese_partenza'] == '09' and dati_utente['mese_arrivo'] == '11' or \
-                dati_utente['mese_arrivo'] == '04' or dati_utente['mese_arrivo'] == '06' or dati_utente[
-            'mese_arrivo'] == '09':
+                dati_utente['mese_arrivo'] == '04' or dati_utente['mese_arrivo'] == '06' or dati_utente['mese_arrivo'] == '09':
             url = f'https://www.kiwi.com/it/search/tiles/{dati_utente['paese_partenza'].lower()}/{dati_utente['paese_arrivo'].lower()}/2024-{dati_utente['mese_partenza']}-01_2024-{dati_utente['mese_partenza']}-30/2024-{dati_utente['mese_arrivo']}-01_2024-{dati_utente['mese_arrivo']}-30'
         elif dati_utente['mese_partenza'] == '11' or dati_utente['mese_partenza'] == '04' or dati_utente[
             'mese_partenza'] == '06' or dati_utente['mese_partenza'] == '09':
@@ -99,7 +97,7 @@ def funzione_mese(dati_utente):
             lista_completa2[j].append(lista_arrivi[i])
             j += 1
         elif lista_arrivi[i].isnumeric():
-            lista_completa2[j].append(str(lista_arrivi[i])+'€')
+            lista_completa2[j].append(str(lista_arrivi[i]) + '€')
             j += 1
     driver.quit()
     return lista_completa2
@@ -379,7 +377,6 @@ def scelta2():
     res = read_query4(count_airport_p, s)
     res2 = read_query4(count_airport_a, s)
     return render_template('search_aeroporto.html', part=res, arr=res2, show_results=True)
-
 
 
 @app.route('/scelta', methods=['POST', 'GET'])
